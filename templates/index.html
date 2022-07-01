@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block sidebar %}
+<nav class="navbar sticky-top navbar-expand-lg  navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand mb-1 h3 " href="/">Travellers Tales</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto mb-2 mb-lg-0 ">
+                <form class="d-flex" method="post" action="{% url 'index' %}">
+                    {% csrf_token %}
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="searchbar">
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </form>
+            </ul>
+            <ul class="navbar-nav ml-auto mb-2 mb-lg-0 ">
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <span class="nav-link active " aria-current="page">Hello, <b>{{request.user|title}}</b></span>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-primary" aria-current="page" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-primary" aria-current="page" href="{% url 'my_blogs' %}">My Blogs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-primary " aria-current="page" href="{% url 'logout' %}">Logout</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-success" aria-current="page" href="{% url 'publish_blog' %}">Publish</a>
+                </li>
+
+
+                {% else %}
+                <li class="nav-item">
+                    <a class="btn btn-primary" aria-current="page" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-primary" aria-current="page" href="{% url 'login' %}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-primary" aria-current="page" href="{% url 'register' %}">Register</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-success" aria-current="page" href="{% url 'publish_blog' %}">Publish</a>
+                </li>
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+{% endblock %}
+
+
+{% block content %}
+<div class="card-body">
+<h2 class="heading">Welcome to Travellers Tales</h2>
+
+{% for message in messages %}
+<h3 class="msg">{{message}}</h3>
+{% endfor %}
+
+{% for item in items %}
+    <div class="card">
+        <div class="card-body">
+            <img src="{{item.image.url}}" class="card-img-top">
+            <h3 class="card-title">{{item.title}}</h3>
+            <p class="card-text">{{item.intro}}</p>
+            <p><small>Published by <b>{{item.user|title}}</b> on {{item.published}}</small></p>
+            <a href="{% url 'detailview' item.id %}" class="btn btn-primary">Read More</a>
+        </div>
+    </div><br>
+{% empty %}
+    <h3 class="msg">No Tales to show</h3>
+{% endfor %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-body">
+    {% for item in items %}
+        <h2>{{item.title}}</h2>
+        <small>Published by <b>{{item.user|title}}</b> on {{item.published}}</small><br>
+        <p><img src="{{item.image.url}}" class="card-img-top"></p>
+        <p>{{item.intro}}</p>
+        <p>{{item.description|linebreaks}}</p>
+    {% endfor %}
+</div>
+</div><br>
+
+<h4>Comments:</h4>
+{% for comment in post.comments.all %}
+<div class="card">
+    <div class="card-body">
+        <strong>{{comment.name}}</strong><br>
+        <small>{{comment.date}}</small>
+        <p>{{comment.body}}</p>
+    </div>
+</div><br>
+{% empty %}
+<p>No comments, Be th First</p>
+{% endfor %}
+
+<div class="card">
+    <div class="card-body">
+    <h4>Add Comments</h4>
+    <form method="post" action=".">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" class="btn btn-primary">
+    </form>
+    </div>
+</div>
+
+{% endblock %}

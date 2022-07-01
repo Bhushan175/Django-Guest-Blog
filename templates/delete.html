@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content  %}
+<div class="card-body">
+<h3 class="smheading">Delete Confirmation</h3>
+<p>Are you sure you want to delete <b>{{blogid}}</b> blog ?</p>
+<form method="post">
+    {% csrf_token %}
+    <input type="submit" value="Delete" class="btn btn-danger">
+    <a href="{% url 'my_blogs' %}" class="btn btn-primary">Cancel</a>
+</form>
+</div>
+{% endblock %}

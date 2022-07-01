@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card-body">
+    <h3 class="smheading">Login</h3>
+    <br>
+    <form method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" value="Login" class="btn btn-primary">
+    </form>
+    {% for message in messages %}
+       <p class="errormsg">{{message}}</p>
+    {% endfor %}
+    <br>
+    <a href="{% url 'password_reset' %}" >Forget Password</a>
+    <p>Don't have an account? <a href="{% url 'register' %}" >Register</a> </p>
+</div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card-body">
+<h3 class="smheading">Publish Your Tales</h3>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token  %}
+        {{form.as_p}}
+        <input type="submit" value="Publish" class="btn btn-success">
+        <a href="{% url 'my_blogs' %}" class="btn btn-primary">Cancel</a>
+    </form><br>
+</div>
+{% endblock %}
